@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/andrewdruzhinin/go-skype/skype"
+	"github.com/zainulbr/go-skype/skype"
 )
 
 func main() {
