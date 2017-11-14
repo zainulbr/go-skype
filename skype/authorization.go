@@ -1,14 +1,16 @@
 package skype
 
 import (
+	"bytes"
 	"fmt"
-	"strings"
+	"net/url"
+	"strconv"
 )
 
 type AuthorizeService service
 
 const (
-	authURL = "https://login.microsoftonline.com/common/oauth2/v2.0/token"
+	authURL = "https://login.microsoftonline.com/botframework.com/oauth2/v2.0/token"
 )
 
 type Authorization struct {
@@ -19,10 +21,17 @@ type Authorization struct {
 }
 
 func (s *AuthorizeService) Authorize() (*Response, error) {
-	bodyStr := fmt.Sprintf("client_id=%s&scope=https://graph.microsoft.com/.default&grant_type=client_credentials&client_secret=%s", s.client.ClientID, s.client.ClientSecret)
-	body := strings.NewReader(bodyStr)
-	req, err := s.client.NewRequest("POST", authURL, body)
-	req.Header.Add("content-type", "application/x-www-form-urlencoded")
+
+	data := url.Values{}
+	data.Set("grant_type", "client_credentials")
+	data.Add("client_id", s.client.ClientID)
+	data.Add("client_secret", s.client.ClientSecret)
+	data.Add("scope", "https://api.botframework.com/.default")
+	req, err := s.client.NewRequest("POST", authURL, bytes.NewBufferString(data.Encode()))
+	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Add("Host", "login.microsoftonline.com")
+	req.Header.Add("Content-Length", strconv.Itoa(len(data.Encode())))
+
 	if err != nil {
 		return nil, err
 	}

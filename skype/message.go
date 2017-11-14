@@ -14,7 +14,7 @@ type Messege struct {
 }
 
 func (s *MessegesService) Send(conversationID string, messegeType string, text string) (*Response, error) {
-	apiURL := fmt.Sprintf("https://api.skype.net/v3/conversations/%s/activities", conversationID)
+	apiURL := fmt.Sprintf("https://smba.trafficmanager.net/apis/v3/conversations/%s/activities", conversationID)
 	messege := Messege{Type: messegeType, Text: text}
 	res, err := json.Marshal(messege)
 	if err != nil {
