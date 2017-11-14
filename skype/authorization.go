@@ -26,7 +26,7 @@ func (s *AuthorizeService) Authorize() (*Response, error) {
 	data.Set("grant_type", "client_credentials")
 	data.Add("client_id", s.client.ClientID)
 	data.Add("client_secret", s.client.ClientSecret)
-	data.Add("scope", "https://api.botframework.com/.default")
+	data.Add("scope", s.client.ClientScope)
 	req, err := s.client.NewRequest("POST", authURL, bytes.NewBufferString(data.Encode()))
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 	req.Header.Add("Host", "login.microsoftonline.com")

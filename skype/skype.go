@@ -11,6 +11,7 @@ type Client struct {
 	client       *http.Client
 	ClientID     string
 	ClientSecret string
+	ClientScope  string
 	Token        string
 
 	Authorization *AuthorizeService
@@ -21,10 +22,10 @@ type service struct {
 	client *Client
 }
 
-func NewClient(clientID, clientSecret string) *Client {
+func NewClient(clientID, clientSecret, clientScope string) *Client {
 	httpClient := http.DefaultClient
 
-	c := &Client{client: httpClient, ClientID: clientID, ClientSecret: clientSecret}
+	c := &Client{client: httpClient, ClientID: clientID, ClientSecret: clientSecret, ClientScope: clientScope}
 	c.Authorization = &AuthorizeService{client: c}
 	c.Messege = &MessegesService{client: c}
 

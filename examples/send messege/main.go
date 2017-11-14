@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	client := skype.NewClient("client_id", "client_secret")
+	client := skype.NewClient("client_id", "client_secret", "scope_url")
 	_, err := client.Authorization.Authorize()
 	if err != nil {
 		fmt.Printf("\nerror: %v\n", err)
